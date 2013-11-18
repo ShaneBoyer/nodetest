@@ -1,0 +1,19 @@
+{
+  "name": "nodetest",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "dependencies": {
+    "express": "*",
+    "jade": ">= 0.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "nodetest"
+  },
+  "author": "",
+  "license": "BSD"
+}
