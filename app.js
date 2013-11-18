@@ -1,46 +1,41 @@
 #!/usr/bin/env node
 ////////// modules
-var express = require('express'), routes = require('./routes'), api = require('./routes/api');                                                                              
-var app = module.exports = express.createServer();
+var config = require('./config'), express = require('express');                                                                              
+var app = express();
 
 ////////// config
-app.configure(function() {
-	app.set('views', __dirname + '/views');
-	app.set('view engine', 'jade');
-	app.set('view options', {
-		layout: false
-	});
-	app.use(express.bodyParser());
-	app.use(express.methodOverride());
-	app.use(express.static(__dirname + '/public'));
-	app.use(app.router);
-});
+app.set('view engine', 'jade');
+app.set('view options', { layout: false });
+app.use(express.bodyParser());
+app.use(express.methodOverride());
+app.use(express.static(__dirname + '/public'));
 
-app.configure('development', function(){
+if (app.get('env') == 'development') {
 	app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-});
+}
 
-app.configure('production', function(){
+if (app.get('env') == 'production') {
 	app.use(express.errorHandler());
+}
+
+
+///// Routes
+[
+  "./users/routes",
+  "./site/routes"
+].forEach(function (routePath) {
+    require(routePath)(app);
 });
 
-//////// Routes
+app.use(app.router);
 
-app.get('/', routes.index);
-app.get('/partials/:name', routes.partials);
-
-//////// JSON API
-
-app.get('/api/posts', api.posts);
-app.get('/api/post/:id', api.post);
-app.post('/api/post', api.addPost);
-app.put('/api/post/:id', api.editPost);
-app.delete('/api/post/:id', api.deletePost);
-
-// redirect all others to the index (HTML5 history)
-app.get('*', routes.index);
+// TODO: error handlers
 
 ////// Start server
-app.listen(3000, function(){
-	console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+app.listen(config.express.port, config.express.ip, function(error) {
+	if (error) {
+		console.log("Express startup failed: " + error);
+		process.exit(10);
+	}
+	console.log("Express server listening at %s in %s mode", config.express.ip + ":" + config.express.port, app.settings.env);
 });
