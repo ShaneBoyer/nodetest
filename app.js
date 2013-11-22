@@ -21,7 +21,7 @@ if (app.get('env') == 'production') {
 
 ///// Routes
 [
-  "./users/routes",
+  "./api/routes",
   "./site/routes"
 ].forEach(function (routePath) {
     require(routePath)(app);
