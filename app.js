@@ -1,7 +1,11 @@
 #!/usr/bin/env node
 ////////// modules
-var config = require('./config'), express = require('express');                                                                              
+var config = require('./config'), express = require('express'), pg = require("pg"), log = require("npmlog");
+var connString = config.db.url;
 var app = express();
+
+log.level = config.env.logLevel;
+log.info('connString = ' + connString);
 
 ////////// config
 app.set('view engine', 'jade');
@@ -9,12 +13,14 @@ app.set('view options', { layout: false });
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.static(__dirname + '/public'));
+app.use(express.cookieParser());
+app.use(express.session({ secret: 'all good things come to those who wait' }));
 
-if (app.get('env') == 'development') {
+if (! config.env.PRODUCTION) {
 	app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 }
 
-if (app.get('env') == 'production') {
+if (config.env.PRODUCTION) {
 	app.use(express.errorHandler());
 }
 

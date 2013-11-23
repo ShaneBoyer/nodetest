@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "db-migrate-up": "db-migrate up"
   },
   "dependencies": {
     "express": "*",
-    "jade": ">= 0.0.1"
+    "jade": ">= 0.0.1",
+    "pg": "*",
+    "npmlog": "*"
   },
   "repository": {
     "type": "git",

@@ -1,0 +1,6 @@
+{
+  "dev": {
+    "driver": "pg",
+    "dburl": "postgres://action:@localhost/action"
+  }
+}
