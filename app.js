@@ -1,11 +1,16 @@
 #!/usr/bin/env node
 ////////// modules
-var config = require('./config'), express = require('express'), pg = require("pg"), log = require("npmlog");
-var connString = config.db.url;
+var config = require('./config'), express = require('express');
 var app = express();
+var dbUrl = config.db.url;
+console.info('connString = %s', dbUrl);
 
-log.level = config.env.logLevel;
-log.info('connString = ' + connString);
+var pg = require("pg");
+pg.defaults.user = config.db.user;
+pg.defaults.database = config.db.database;
+pg.defaults.password = config.db.password;
+pg.defaults.host = config.db.host;
+pg.defaults.port = config.db.port;
 
 ////////// config
 app.set('view engine', 'jade');
@@ -30,7 +35,7 @@ if (config.env.PRODUCTION) {
   "./api/routes",
   "./site/routes"
 ].forEach(function (routePath) {
-    require(routePath)(app);
+    require(routePath)(app, pg);
 });
 
 app.use(app.router);
@@ -40,8 +45,8 @@ app.use(app.router);
 ////// Start server
 app.listen(config.express.port, config.express.ip, function(error) {
 	if (error) {
-		console.log("Express startup failed: " + error);
+		console.error("Express startup failed: %s", error);
 		process.exit(10);
 	}
-	console.log("Express server listening at %s in %s mode", config.express.ip + ":" + config.express.port, app.settings.env);
+	console.info("Express server listening at %s in %s mode", config.express.ip + ":" + config.express.port, app.settings.env);
 });

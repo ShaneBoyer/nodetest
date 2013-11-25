@@ -13,6 +13,11 @@ config.express = {
 };
 
 config.db = {
+  user: 'action',
+  password: '',
+  host: 'localhost',
+  port: '5432',
+  database: 'action',
   url: process.env.DB_URL || 'postgres://action:@localhost/action'
 };
 
