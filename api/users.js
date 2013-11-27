@@ -9,10 +9,31 @@ function setup(app, database) {
 	app.put('/api/v1/users/:id', editUser);
   app.post('/api/v1/users', addUser);
   app.delete('/api/v1/users/:id', deleteUser);
+  app.post('/api/v1/users/login', loginUser);
+}
+
+// TODO: replace this with passport, use hashes
+function loginUser(req, res) {
+	var username = req.params.username;
+	var password = req.params.password;
+  if (username && password) {
+    db.connect(function(client, done) {
+      db.query(res, client, 'SELECT * FROM user_ WHERE username = $1 AND password = $2', [username, password], done, function(result) {
+        if (result.rows.length == 1) {
+          req.params.id = result.rows[0].id;
+          getUser(req, res); // return authenticated user
+        } else {
+          return db.jsonResponse(res, 404, null);
+        }
+      });
+    });
+  } else {
+    return db.jsonResponse(res, 400, null);
+  }
 }
 
 function getUsers(req, res) {
-  db.connect(function(client, done) {
+  db.connect(res, function(client, done) {
     db.query(res, client, 'SELECT * FROM user_', null, done, function(result) {
       db.jsonResponse(res, 200, result.rows);
     });

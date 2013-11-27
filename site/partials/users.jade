@@ -1,0 +1,8 @@
+p There are {{users.length}} users 
+a(href='/app/addUser') Add User
+div(ng-repeat='user in users')
+  h3 {{user.username}}
+  div {{user.first_name}} {{user.last_name}}
+  a(href='/app/editUser/{{user.id}}') Edit
+  |  - 
+  a(href='/app/deleteUser/{{user.id}}') Delete

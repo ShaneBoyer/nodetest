@@ -1,0 +1,15 @@
+h2 Add a User
+label(for='username') Username: 
+input(ng-model='form.username', name='username')
+label(for='password') Password: 
+input(ng-model='form.password', name='password')
+label(for='first_name') First Name: 
+input(ng-model='form.first_name', name='first_name')
+label(for='last_name') Last Name: 
+input(ng-model='form.last_name', name='last_name')
+label(for='email') Email: 
+input(ng-model='form.email', name='email')
+label(for='confirmed') Confirmed: 
+input(type='checkbox', ng-model='form.confirmed', name='confirmed')
+p
+  button(ng-click='submitUser()') Submit Post
