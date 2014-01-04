@@ -9,7 +9,15 @@
   },
   "dependencies": {
     "express": "*",
+    "connect-flash": "*",
     "jade": ">= 0.0.1",
+    "passport": "*",
+    "passport-local": "*",
+    "passport-http": "*",
+    "passport-http-bearer": "*",
+    "passport-oauth2-client-password": "*",
+    "connect-ensure-login": "*",
+    "oauth2orize": "1.x",
     "pg": "*"
   },
   "repository": {

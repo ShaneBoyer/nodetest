@@ -1,4 +1,3 @@
-// web site HTML routes
 var express = require('express');
 
 function home(req, res) {
@@ -16,6 +15,7 @@ function theApp(req, res) {
 function setup(app) {
 	app.get('/', home);
 	app.get('/tour', tour);
+  //app.post('/login', passport.authenticate('local', {successRedirect: '/app', failureRedirect: '/login', failureFlash: true }));
   app.get('/app', theApp);
   app.get('/partials/:name', function (req, res) {
     var name = req.params.name;

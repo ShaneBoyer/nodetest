@@ -12,29 +12,31 @@ function privateSetup(database) {
   pg = database;
 }
 
-function privateConnect(response, callback) {
+function privateConnect(callback) {
   pg.connect(function(err, client, done) {
     if (err) {
       console.error('DB connect error: %s', err);
-      privateErrorResponse(response, 500, "500", 'Database Connect Error', null);
+      var e = new Error('Database connect error'); e.status = 500;
+      callback(e);
       return;
     }
     
-    callback(client, done);
+    callback(null, client, done);
   });
 }
 
 // returns result set object
-function privateQuery(response, client, sql, parameters, done, callback) {
+function privateQuery(client, sql, parameters, done, callback) {
     client.query(sql, parameters, function(err, result) {
       done();
       if (err) {
         console.error('SQL query error (%s): %s', sql, err);
-        privateErrorResponse(response, 500, "500", 'Query Error', null);
+        var e = new Error('Query error'); e.status = 500;
+        callback(e);
         return;
       }
       
-      callback(result);
+      callback(null, result);
     });
 }
 
