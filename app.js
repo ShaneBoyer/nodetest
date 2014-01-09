@@ -45,8 +45,8 @@ if (! config.env.PRODUCTION) {
 });
 
 // oauth 2 routes
-app.get('/oauth/authorize', oauth2.authorization);
-app.post('/oauth/authorize/decision', oauth2.decision);
+//app.get('/oauth/authorize', oauth2.authorization);
+//app.post('/oauth/authorize/decision', oauth2.decision);
 app.post('/oauth/token', oauth2.token);
 
 //////// TEMP
@@ -64,11 +64,11 @@ app.use(function(req, res, next) {
 	console.info('404 handler called, res = ' + (res ? 'non-null' : 'null'));
   res.status(404);
   if (req.accepts('json')) {
-    res.send({ code: (err.status || 500), message: 'Not Found' });
+    res.send({ code: (res.status || 500), message: 'Not Found' });
   } else if (req.accepts('html')) {
     res.render('Not Found', { url: req.url });
   } else {
-    res.type('txt').send('Error: ' + err.message);  
+    res.type('txt').send('Error: Not Found');  
   }
   
   return;
