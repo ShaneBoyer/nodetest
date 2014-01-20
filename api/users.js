@@ -9,7 +9,6 @@ function setup(app, database) {
 	app.put('/api/v1/users/:id', editUser);
   app.post('/api/v1/users', addUser);
   app.delete('/api/v1/users/:id', deleteUser);
-  app.post('/api/v1/users/login', loginUser);
 }
 
 // TODO: replace this with passport, use hashes

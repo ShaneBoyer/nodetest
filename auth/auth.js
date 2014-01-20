@@ -15,24 +15,23 @@ var passport = require('passport')
  */
 passport.use(new LocalStrategy(
   function(username, password, done) {
-  console.info('LocalStrategy called');
     db.findUserByUsername(username, function(err, user) {
       if (err) { return done(err); }
-      if (!user) { return done(null, false); }
-      if (user.password != password) { return done(null, false); }
+      if (!user) { return done(null, false, { message: 'User not found' } ); }
+      if (user.password != password) { return done(null, false, { message: 'Invalid Username or Password' } ); }
       return done(null, user);
     });
   }
 ));
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  return done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {
-  console.info('deserialize user');
-  db.users.find(id, function (err, user) {
-    done(err, user);
+  db.findUserById(id, function(err, user) {
+    if (err) { return done(err); }
+    return done(null, user);
   });
 });
 

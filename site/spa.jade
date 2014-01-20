@@ -2,7 +2,7 @@ extends angularlayout
 
 block body
   div(ng-controller='HomeCtrl')
-    h2 Hello {{name}}
+    h2 Hello #{user.first_name}!
     ul.menu
       li
         a(href='/app') Home

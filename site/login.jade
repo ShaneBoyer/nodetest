@@ -1,0 +1,10 @@
+extends staticlayout
+block content
+    div.login
+      h1 Login
+      form(name="login", action="/login", method="post")
+        label(for="username") User
+        input(type="text", name="username")
+        label(for="password") Password
+        input(type="password", name="password")
+        input(type="submit", value="Sign In")
